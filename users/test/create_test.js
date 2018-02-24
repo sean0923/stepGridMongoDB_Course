@@ -6,7 +6,7 @@ describe('Createing records', () => {
     const sean = new User({ name: 'Sean'});
     sean.save()
       .then(() => {
-        assert(sean.isNew);
+        assert(!sean.isNew);
         done();
       });
     
