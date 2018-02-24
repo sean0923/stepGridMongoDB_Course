@@ -6,3 +6,10 @@ mongoose.connection
   .on('error', (err) => {
     console.log('Warning', err);
   })
+
+beforeEach((done) => {
+  mongoose.connection.collections.users.drop(() => {
+    // Reday to run the next test
+    done();
+  })
+})
