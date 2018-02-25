@@ -12,14 +12,19 @@ describe('Update test', () => {
       })
   })
 
-  it('Instance update method: set and save -> joe to yeah', (done) => {
-    joe.set('name',  'yeah');
-    joe.save()
+  const assertUpdatedName = (operation, updatedName, done) => {
+    operation
       .then(() => User.find({}))
       .then((users) => {
         assert(users.length === 1);
-        assert(users[0].name === 'yeah');
+        assert(users[0].name === updatedName);
         done()
       })
+  }
+
+  it('Instance update method: set and save -> joe -> <updatedName>', (done) => {
+    const updatedName = 'yoyo';
+    joe.set('name', updatedName);
+    assertUpdatedName(joe.save(), updatedName, done);
   })
 })
