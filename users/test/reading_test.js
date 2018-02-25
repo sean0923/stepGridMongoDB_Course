@@ -19,4 +19,12 @@ describe('Reading user', () => {
         done()
       })
   });
+
+  it('find one user name sean', (done) => {
+    User.findOne({ _id: sean._id })
+      .then((user) => {
+        assert(user.name === 'sean')
+        done();
+      })
+  })
 });
