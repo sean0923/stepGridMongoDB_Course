@@ -31,5 +31,22 @@ describe('Delete users', () => {
       })
   });
 
+  it('Class based remove: findOneAndRemove', (done) => {
+    User.findOneAndRemove({ name: 'joe'})
+      .then(() => User.find({ name: 'joe' }))
+      .then((users) => {
+        assert(users.length === 0);
+        done();
+      })
+  });
+
+  it('Class based remove: findByIdAndRemove', (done) => {
+    User.findByIdAndRemove(joe._id.toString()) // oh ... so you can either pass obj or str
+      .then(() => User.find({ name: 'joe' }))
+      .then((users) => {
+        assert(users.length === 0);
+        done();
+      })
+  });
 
 })
