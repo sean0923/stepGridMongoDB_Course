@@ -5,7 +5,10 @@ describe('Update test', () => {
   let joe;
 
   beforeEach((done) => {
-    joe = new User({ name: 'joe' });
+    joe = new User({ 
+      name: 'joe',
+      postCount: 0,
+    });
     joe.save()
       .then(() => {
         done();
@@ -62,5 +65,16 @@ describe('Update test', () => {
       done
     )
   })
+
+  // Using update operator
+  it('Using update operator to increment postCount by 1', (done) => {
+    console.log('joe: ', joe);
+    User.update({ name: 'joe'}, {$inc: { postCount: 1 }})
+      .then(() => User.findOne({name: 'joe'}))
+      .then((user) => {
+        assert(user.postCount === 1);
+        done();
+      })
+  }) 
 
 })
