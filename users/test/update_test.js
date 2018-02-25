@@ -27,4 +27,9 @@ describe('Update test', () => {
     joe.set('name', updatedName);
     assertUpdatedName(joe.save(), updatedName, done);
   })
+
+  it('Instance update method: update -> joe -> <updatedName>', (done) => {
+    const updatedName = 'uiui';
+    assertUpdatedName(joe.update({ name: updatedName}), updatedName, done);
+  })
 })
