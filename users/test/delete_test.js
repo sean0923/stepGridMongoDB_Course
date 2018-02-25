@@ -4,7 +4,6 @@ const User = require('../src/user');
 describe('Delete users', () => {
   let joe;
 
-
   beforeEach((done) => {
     joe = new User({ name: 'joe' });
     joe.save()
@@ -20,6 +19,17 @@ describe('Delete users', () => {
         assert(user === null);
         done();
       })
-  })
+  });
+
+  it('Class based remove: remove()', (done) => {
+    // user this when you want to remove bunch at once ~~
+    User.remove({ name: 'joe' })
+      .then(() => User.findOne({ name: 'joe' }))
+      .then((user) => {
+        assert(user === null);
+        done();
+      })
+  });
+
 
 })
