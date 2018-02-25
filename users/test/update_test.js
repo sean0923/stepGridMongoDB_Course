@@ -12,6 +12,7 @@ describe('Update test', () => {
       })
   })
 
+  // helper method
   const assertUpdatedName = (operation, updatedName, done) => {
     operation
       .then(() => User.find({}))
@@ -22,6 +23,7 @@ describe('Update test', () => {
       })
   }
 
+  // Model instance update methods
   it('Instance update method: set and save -> joe -> <updatedName>', (done) => {
     const updatedName = 'yoyo';
     joe.set('name', updatedName);
@@ -32,4 +34,33 @@ describe('Update test', () => {
     const updatedName = 'uiui';
     assertUpdatedName(joe.update({ name: updatedName}), updatedName, done);
   })
+
+  // Model class update methods
+  it('Class modal update method: update -> joe -> <updatedName>', (done) => {
+    const updatedName = 'class 1';
+    assertUpdatedName(
+      User.update({ name: 'joe'}, { name: updatedName }),
+      updatedName,
+      done
+    )
+  })
+
+  it('Class modal update method: findOneAndUpdate -> joe -> <updatedName>', (done) => {
+    const updatedName = 'class 2';
+    assertUpdatedName(
+      User.findOneAndUpdate({ name: 'joe'}, { name: updatedName }),
+      updatedName,
+      done
+    )
+  })
+
+  it('Class modal update method: findByIdAndUpdate -> joe -> <updatedName>', (done) => {
+    const updatedName = 'class 3';
+    assertUpdatedName(
+      User.findByIdAndUpdate(joe._id, { name: updatedName }),
+      updatedName,
+      done
+    )
+  })
+
 })
