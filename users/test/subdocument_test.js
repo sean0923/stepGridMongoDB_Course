@@ -35,6 +35,27 @@ describe('Subdocument test', () => {
         assert(user.posts[0].title === 'PostTitle');
         done();
       });
-      
+  });
+
+  it('Remove subdocument', (done) => {
+    const joe = new User({
+      name: 'joe',
+      posts: [{title: 'some'}]
+    });
+
+    joe.save()
+      .then(() => User.findOne({ name: 'joe'}))
+      .then((user) => {
+        user.posts[0].remove();
+        return user.save()
+      })
+      .then(() => {
+        return User.findOne({ name: 'joe' })
+      })
+      .then((user) => {
+        assert(user.posts.length === 0);
+        done();
+      })
+
   });
 })
