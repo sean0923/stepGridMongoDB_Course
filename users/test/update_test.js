@@ -68,7 +68,6 @@ describe('Update test', () => {
 
   // Using update operator
   it('Using update operator to increment postCount by 1', (done) => {
-    console.log('joe: ', joe);
     User.update({ name: 'joe'}, {$inc: { postCount: 1 }})
       .then(() => User.findOne({name: 'joe'}))
       .then((user) => {
