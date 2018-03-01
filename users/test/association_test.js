@@ -18,7 +18,7 @@ describe('Association test', () => {
     Promise.all([joe.save(), blogPost.save(), comment.save()]).then(() => done());
   });
 
-  it('check save joe blogPost comment with corret relation', (done) => {
+  it('save relation between user and blogPosts', (done) => {
     User.findOne({ name: 'joe' })
       .populate('blogPosts')
       .then((user) => {
@@ -26,4 +26,8 @@ describe('Association test', () => {
         done();
       });
   });
+
+  it('saves a full relational graph', (done) => {
+
+  })
 });
