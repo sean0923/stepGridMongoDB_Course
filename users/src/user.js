@@ -24,6 +24,12 @@ UserSchema.virtual('postCount').get(function() {
   return this.posts.length;
 });
 
+UserSchema.pre('remove', function() {
+  // this === joe --> why we have to user function() instead of =>
+  const BlogPost = mongoose.model('blogpost');
+  
+})
+
 const User = mongoose.model('user', UserSchema);
 
 module.exports = User;
