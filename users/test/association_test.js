@@ -27,7 +27,26 @@ describe('Association test', () => {
       });
   });
 
-  it('saves a full relational graph', (done) => {
-
+  it.only('saves a full relational graph', (done) => {
+    User
+      .findOne({name: 'joe'})
+      .populate({
+        path: 'blogPosts',
+        populate: {
+          path: 'comments',
+          model: 'comment',
+          populate: {
+            path:'user',
+            model: 'user'
+          }
+        }
+      })
+      .then((user) => {
+        assert(user.name === 'joe');
+        assert(user.blogPosts[0].title === 'blogPostTitle');
+        assert(user.blogPosts[0].comments[0].content === 'commentContent');
+        assert(user.blogPosts[0].comments[0].user.name === 'joe');
+        done();
+      })
   })
 });
