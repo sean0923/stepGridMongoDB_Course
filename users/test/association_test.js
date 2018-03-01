@@ -27,7 +27,7 @@ describe('Association test', () => {
       });
   });
 
-  it.only('saves a full relational graph', (done) => {
+  it('saves a full relational graph', (done) => {
     User
       .findOne({name: 'joe'})
       .populate({
