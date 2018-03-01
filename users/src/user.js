@@ -26,6 +26,10 @@ UserSchema.virtual('postCount').get(function() {
 });
 
 UserSchema.pre('remove', function(next) {
+  // I guess since it is pre
+  // before removing the user find all blog posts related to user 
+  // and then remove user ~ 
+
   // this === joe --> why we have to user function() instead of =>
   const BlogPost = mongoose.model('blogpost');
   BlogPost.remove({ _id: { $in: this.blogPosts } }).then(() => next());
