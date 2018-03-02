@@ -10,10 +10,14 @@ describe('Reading user', () => {
     uim = new User({ name: 'uim' });
     vim = new User({ name: 'vim' });
     wim = new User({ name: 'wim' });
-
-    Promise.all(sean.save(), tim.save(), uim.save(), vim.save(), wim.save()).then(() => {
-      done();
-    });
+    // sean.save()
+    //   .then(() => {
+    //     done();
+    //   })
+    Promise.all([sean.save(), tim.save(), uim.save(), vim.save(), wim.save()])
+      .then((data) => {
+        done();
+      })
   });
 
   it('finds all users with name of sean', (done) => {
@@ -28,6 +32,18 @@ describe('Reading user', () => {
       _id: sean._id,
     }).then((user) => {
       assert(user.name === 'sean');
+      done();
+    });
+  });
+
+  it('be able to skip and limit the result', (done) => {
+    User.find({}).sort({ name: 1 }).skip(1).limit(2).then((users) => {
+      console.log('users.length: ', users.length);
+      console.log('users[0].name: ', users[0].name);
+      console.log('users[1].name : ', users[1].name );
+      assert(users.length === 2);
+      assert(users[0].name === 'tim');
+      assert(users[1].name === 'uim');
       done();
     });
   });
