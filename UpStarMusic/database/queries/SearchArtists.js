@@ -8,8 +8,34 @@ const Artist = require('../models/artist');
  * @param {integer} limit How many records to return in the result set
  * @return {promise} A promise that resolves with the artists, count, offset, and limit
  */
+
+const buildQuery = (criteria) => {
+  const { name, age, yearsActive } = criteria;
+
+  const queryObj = {};
+
+  if (age) {
+    queryObj.age = {
+      $gte: age.min,
+      $lte: age.max,
+    };
+  }
+
+  if (yearsActive) {
+    queryObj.yearsActive = {
+      $gte: yearsActive.min,
+      $lte: yearsActive.max,
+    };
+  }
+
+  return queryObj;
+};
+
 module.exports = (criteria, sortProperty, offset = 0, limit = 20) => {
-  const query = Artist.find({}).sort({ [sortProperty]: 1 }).skip(offset).limit(limit);
+  const query = Artist.find(buildQuery(criteria))
+    .sort({ [sortProperty]: 1 })
+    .skip(offset)
+    .limit(limit);
 
   return Promise.all([query, Artist.count()]).then((data) => {
     return {
