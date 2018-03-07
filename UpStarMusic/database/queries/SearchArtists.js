@@ -14,6 +14,13 @@ const buildQuery = (criteria) => {
 
   const queryObj = {};
 
+  if (name) {
+    queryObj.name = {
+      $regex: name,
+      $options: 'i',
+    };
+  }
+
   if (age) {
     queryObj.age = {
       $gte: age.min,
