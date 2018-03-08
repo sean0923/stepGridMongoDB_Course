@@ -39,17 +39,25 @@ const buildQuery = (criteria) => {
 };
 
 module.exports = (criteria, sortProperty, offset = 0, limit = 20) => {
-  const query = Artist.find(buildQuery(criteria))
+  return Artist.find(buildQuery(criteria))
     .sort({ [sortProperty]: 1 })
     .skip(offset)
-    .limit(limit);
+    .limit(limit)
+    .then((artists) => {
+      return {
+        all: artists,
+        count: artists.length,
+        offset,
+        limit,
+      };
+    });
 
-  return Promise.all([query, Artist.count()]).then((data) => {
-    return {
-      all: data[0],
-      count: data[1],
-      offset,
-      limit,
-    };
-  });
+  // return Promise.all([query, Artist.count()]).then((data) => {
+  //   return {
+  //     all: data[0],
+  //     count: data[0].length,
+  //     offset,
+  //     limit,
+  //   };
+  // });
 };

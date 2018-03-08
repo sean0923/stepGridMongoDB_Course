@@ -32,7 +32,9 @@ UserSchema.pre('remove', function(next) {
 
   // this === joe --> why we have to user function() instead of =>
   const BlogPost = mongoose.model('blogpost');
-  BlogPost.remove({ _id: { $in: this.blogPosts } }).then(() => next());
+  BlogPost
+    .remove({ _id: { $in: this.blogPosts } })
+    .then(() => next());
 });
 
 const User = mongoose.model('user', UserSchema);
