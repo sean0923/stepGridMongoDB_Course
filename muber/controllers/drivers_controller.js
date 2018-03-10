@@ -11,8 +11,13 @@ module.exports = {
     //   res.send(req.driver);
     // });
 
-    Driver.create(req.body).then((driver) => {
-      res.send(req.driver);
-    });
+    Driver.create(req.body)
+      .then((driver) => {
+        res.send(driver);
+      })
+      .catch((err) => {
+        console.log('err: ', err);
+        res.send(err);
+      });
   },
 };
