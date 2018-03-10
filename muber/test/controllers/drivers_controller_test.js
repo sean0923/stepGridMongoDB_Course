@@ -33,4 +33,22 @@ describe('driver_controller test', () => {
         });
     });
   });
+
+  it('handles DELETE req to /api/drivers/:id', done => {
+    const email = 'w@w.com';
+    const driver = new Driver({ email, driving: false });
+    driver.save(() => {
+      request(app)
+        .delete(`/api/drivers/${driver._id}`)
+        .end((err, resp) => {
+          Driver
+            .findOne({ email })
+            .then(driver => {
+              assert(driver === null)
+              done();
+            });
+        });
+    });
+  });
+
 });

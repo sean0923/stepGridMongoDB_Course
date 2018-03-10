@@ -21,4 +21,13 @@ module.exports = {
       })
       .catch(next);
   },
+
+  delete(req, res, next) {
+    Driver.findByIdAndRemove(req.params.id)
+      .then(() => Driver.findById(req.params.id))
+      .then(deletedDriver => {
+        res.send(deletedDriver);
+      })
+      .catch(next);
+  },
 };
