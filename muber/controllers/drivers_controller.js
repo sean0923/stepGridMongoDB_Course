@@ -16,7 +16,9 @@ module.exports = {
   update(req, res, next) {
     Driver.findByIdAndUpdate(req.params.id, req.body)
       .then(() => Driver.findById(req.params.id))
-      .then(driver => res.send(driver))
+      .then(updatedDriver => {
+        res.send(updatedDriver);
+      })
       .catch(next);
   },
 };
