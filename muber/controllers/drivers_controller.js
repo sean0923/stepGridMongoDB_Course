@@ -7,7 +7,16 @@ module.exports = {
 
   create(req, res, next) {
     Driver.create(req.body)
-      .then((driver) => {res.send(driver);})
+      .then(driver => {
+        res.send(driver);
+      })
+      .catch(next);
+  },
+
+  update(req, res, next) {
+    Driver.findByIdAndUpdate(req.params.id, req.body)
+      .then(() => Driver.findById(req.params.id))
+      .then(driver => res.send(driver))
       .catch(next);
   },
 };

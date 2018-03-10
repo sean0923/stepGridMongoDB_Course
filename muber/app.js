@@ -5,7 +5,10 @@ const routes = require('./routes/routes');
 const app = express();
 
 if (process.env.NODE_ENV !== 'test') {
-  mongoose.connect('mongodb://localhost/muber_driver');
+  
+  mongoose.connect('mongodb://localhost/muber_driver', () => {
+    console.log('connected to mongoose');
+  });
 }
 
 app.use(bodyParser.json());
