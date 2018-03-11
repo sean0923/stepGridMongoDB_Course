@@ -38,17 +38,38 @@ describe('driver_controller test', () => {
     const email = 'w@w.com';
     const driver = new Driver({ email, driving: false });
     driver.save(() => {
-      request(app)
-        .delete(`/api/drivers/${driver._id}`)
-        .end((err, resp) => {
-          Driver
-            .findOne({ email })
-            .then(driver => {
-              assert(driver === null)
-              done();
-            });
+      request(app).delete(`/api/drivers/${driver._id}`).end((err, resp) => {
+        Driver.findOne({ email }).then(driver => {
+          assert(driver === null);
+          done();
         });
+      });
     });
   });
 
+  it('finds drivers near by center point', done => {
+    const seattleDriver = new Driver({
+      email: 'seattle@gmail.com',
+      geometry: {
+        type: 'Point',
+        coordinates: [-122.47, 47.61],
+      },
+    });
+
+    const miamiDriver = new Driver({
+      email: 'miami@gmail.com',
+      geometry: {
+        type: 'Point',
+        coordinates: [-80.25, 25.79],
+      },
+    });
+
+    Promise.all([seattleDriver.save(), miamiDriver.save()]).then(() => {
+      request(app).get('/api/drivers?lng=-80&lat=25').end((err, resp) => {
+        assert(resp.body.length === 1);
+        assert(resp.body[0].email === 'miami@gmail.com');
+        done();
+      });
+    });
+  });
 });
